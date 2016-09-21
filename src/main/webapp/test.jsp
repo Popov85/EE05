@@ -36,7 +36,7 @@ My TODO list<br/>
     <input type = "submit" value = "Update"/>
  </form>
 <br>
-    <form action="test.jsp" method = "GET">
+    <form action="test.jsp" method = "GET"> 
         Task name: <input type = "text" name = "name"/>
         <br>
         Task category: <input type = "text" name = "category"/>

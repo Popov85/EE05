@@ -10,7 +10,7 @@
         based on the recommendations of the Application Developer's Guide.
     </description>
 
-    <servlet>
+    <!--<servlet>
         <servlet-name>Clock</servlet-name>
         <servlet-class>com.goit.g2popov.ee05.ClockServlet</servlet-class>
     </servlet>
@@ -18,6 +18,6 @@
     <servlet-mapping>
         <servlet-name>Clock</servlet-name>
         <url-pattern>/clock</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping>-->
 
 </web-app>
