@@ -17,15 +17,21 @@
 				tasks.add(newTask);
 				session.setAttribute("tasks", tasks);
 	   }
-	   // delete tasks if checked
-	   // TODO
+	   // delete tasks if they are checked
+	   String[] values = new String[0];
 	   Map<String, String[]> parameters = request.getParameterMap();
 			for(String parameter : parameters.keySet()) {
 					if(parameter.toLowerCase().startsWith("task")) {
-						String[] values = parameters.get(parameter);
-
+						values = parameters.get(parameter);
 					}
-		}
+			}
+			ArrayList<Task> tasks =(ArrayList<Task>) session.getAttribute("tasks");
+		    for (int i = 0; i < values.length; i++) {
+				String indexStr = values[i].replaceAll("^task", "");
+				int index = Integer.parseInt(indexStr);
+				tasks.remove(index); 		 
+            }
+			session.setAttribute("tasks", tasks);
    }
 %>
 
@@ -51,21 +57,14 @@
 	 <tr>
 		 <td><% out.print(task.getTaskName()); %></td>
 		 <td><% out.print(task.getCategory()); %></td>
-		 <td><% if (task.isCompleted()) {%> 
-		         <div><input type="checkbox" name="task" value="<%= myValue%>" checked></div>
-				<% } else {%> 
-				 <div><input type="checkbox" name="task" value="<%= myValue%>"></div>
-			<%}%>
-		  </td>   
+		 <td><div><input type="checkbox" name="task" value="<%= myValue%>"></div></td>   
       </tr>		 
    <%counter++;}%>
   
 </table>
 <br>
     <input type="submit" value="Update Tasks" />
-</form>
 <br>
-    <form action="index.jsp" method = "POST">
         Task name: <input type = "text" name = "name"/>
         <br>
         Task category: <input type = "text" name = "category"/>
