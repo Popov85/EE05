@@ -35,16 +35,17 @@
 
 <html>
 <head>
+<link rel="stylesheet" type="text/css" href="MyCSS.css">
 <title>TODO</title>
 </head>
 <body>
-<h1 style="width:50%"><center>My TODO list ( ${counter} )</center></h1>
+<h1 style="width:50%">My ToDO List ( ${counter} )</h1>
 <form action = "index.jsp" method = "POST">
 <table style="width:50%">
   <tr>
-    <th>Task</th>
+    <th>Name</th>
     <th>Category</th>
-    <th>isCompleted</th>
+    <th>Complete</th>
   </tr>
 	<%
 	 ArrayList<Task> tasks =(ArrayList<Task>) session.getAttribute("tasks");
@@ -63,9 +64,8 @@
 <br>
     <input type="submit" value="Update Tasks" />
 <br>
-        Task name: <input type = "text" name = "name"/>
-        <br>
-        Task category: <input type = "text" name = "category"/>
+        <p>Task name: <input type = "text" name = "name"/></p>
+        <p>Task category: <input type = "text" name = "category"/></p>
         <br>
         <input type = "submit" value = "Add Task"/>
     </form>
