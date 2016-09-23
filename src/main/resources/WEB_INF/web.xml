@@ -4,20 +4,9 @@
          http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          >
 
-    <display-name>Clock Application</display-name>
+    <display-name>TODo app</display-name>
     <description>
-        This is a simple web application with a source code organization
-        based on the recommendations of the Application Developer's Guide.
+        This is a simple web application to add and remove tasks in your TODO list
     </description>
-
-    <!--<servlet>
-        <servlet-name>Clock</servlet-name>
-        <servlet-class>com.goit.g2popov.ee05.ClockServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>Clock</servlet-name>
-        <url-pattern>/clock</url-pattern>
-    </servlet-mapping>-->
 
 </web-app>

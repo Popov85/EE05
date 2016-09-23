@@ -4,11 +4,12 @@
 <%@ page import="com.goit.g2popov.ee05.*"%>
 
 <%
-   // Check if this is new comer on your web page.
-   if (session.isNew()||session.getAttribute("tasks") == null){
+   // Check if this is the first launch
+   if (session.getAttribute("tasks") == null){
       List<Task> tasks = new ArrayList<Task>();
 	  tasks.add(new Task("defaultTask", "defaultCategory"));
 	  session.setAttribute("tasks", tasks);
+	  session.setAttribute("counter", 1);
    } else {
 	   // add tasks if present
 	   if (!request.getParameter("name").equals("") && !request.getParameter("category").equals("")) {
@@ -16,31 +17,28 @@
 				Task newTask = new Task(request.getParameter("name"), request.getParameter("category"));
 				tasks.add(newTask);
 				session.setAttribute("tasks", tasks);
+				int quantityOfTasks = (int) session.getAttribute("counter");
+				quantityOfTasks++;
+				session.setAttribute("counter", quantityOfTasks);
 	   }
 	   // delete tasks if they are checked
-	   String[] values = new String[0];
 	   Map<String, String[]> parameters = request.getParameterMap();
-			for(String parameter : parameters.keySet()) {
-					if(parameter.toLowerCase().startsWith("task")) {
-						values = parameters.get(parameter);
-					}
-			}
-			ArrayList<Task> tasks =(ArrayList<Task>) session.getAttribute("tasks");
-		    for (int i = 0; i < values.length; i++) {
-				String indexStr = values[i].replaceAll("^task", "");
-				int index = Integer.parseInt(indexStr);
-				tasks.remove(index); 		 
-            }
-			session.setAttribute("tasks", tasks);
+	   String[] values = getSelectedTasks(parameters);
+	   if (values.length != 0) {
+		   	ArrayList<Task> tasks =(ArrayList<Task>) session.getAttribute("tasks");
+			ArrayList<Task> newTasks = deleteTasks(tasks, values);
+			session.setAttribute("tasks", newTasks);
+			session.setAttribute("counter", newTasks.size());
+	   }
    }
 %>
 
 <html>
 <head>
-<title>Hello World</title>
+<title>TODO</title>
 </head>
 <body>
-<h1 style="width:50%"><center>My TODO list</center></h1>
+<h1 style="width:50%"><center>My TODO list ( ${counter} )</center></h1>
 <form action = "index.jsp" method = "POST">
 <table style="width:50%">
   <tr>
@@ -73,16 +71,32 @@
     </form>
 	
 <%! 
-   public String addTask() {
-	   return "";   
+   public String[] getSelectedTasks(Map<String, String[]> parameters) {
+		String[] values = new String[0];
+		for(String parameter : parameters.keySet()) {
+			if(parameter.toLowerCase().startsWith("task")) {
+				values = parameters.get(parameter);
+			}
+		}
+	   return values;   
    } 
 %>
 
 <%! 
-   // returns number of tasks deleted
-   public int deleteTask() {
-
-	   return 0;
+   // returns an updated list of tasks
+   public ArrayList<Task> deleteTasks(ArrayList<Task> tasks, String[] values) {
+	   if (tasks.size() == values.length) {
+		   tasks.clear();
+		   return tasks;
+	   }
+	   List<Task> tasksToRemove = new ArrayList<Task>();
+	   for (int i = 0; i < values.length; i++) {
+			String indexStr = values[i].replaceAll("task", "");
+			int index = Integer.parseInt(indexStr);
+			tasksToRemove.add(tasks.get(index));		 
+       }
+	   tasks.removeAll(tasksToRemove); 
+	   return tasks;
    } 
 %>
 </body>
